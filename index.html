@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Tamu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- CDN SweetAlert2 -->
+</head>
+<body>
+    <div class="container">
+        <h1>Formulir Tamu</h1>
+        <form id="guestbook-form" name="buku-tamu">
+            <label for="name">Nama Lengkap:</label>
+            <input type="text" id="name" name="nama" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="nik">NIK:</label>
+            <input type="number" max="7" id="nik" name="nik" placeholder="Masukkan NIK Max 7 angka " required>
+
+            <label for="outlet">Outlet:</label>
+            <input type="text" id="outlet" name="outlet" placeholder="Masukkan nama Outlet" required>
+
+            <label for="divisi">Divisi:</label>
+            <input type="text" id="divisi" name="divisi" required>
+
+            <label for="message">Keperluan:</label>
+            <textarea id="message" name="keperluan" rows="4" required></textarea>
+
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwNiIcTC0jzIpYuFmTU-1KeCsNQ6Jx6mxUR98oV13gWrXmALUy9dbVgpyuzqXt2JgoFFA/exec';
+        const form = document.forms['buku-tamu'];
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            // Buat objek FormData dari form
+            const formData = new FormData(form);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+              .then(response => {
+                  // SweetAlert2 success notification
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Sukses!',
+                      text: 'Data telah berhasil dikirim.',
+                  });
+                  form.reset(); // Reset form setelah submit
+              })
+              .catch(error => {
+                  // SweetAlert2 error notification
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal!',
+                      text: 'Terjadi kesalahan saat mengirim data: ' + error.message,
+                  });
+              });
+        });
+    </script>
+</body>
+</html>
